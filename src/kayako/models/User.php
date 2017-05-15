@@ -7,7 +7,7 @@ namespace indigerd\kayako\models;
 
 use SimpleXMLElement;
 
-class User implements ModelInterface
+class User extends Model
 {
     protected $id;
     protected $userGroupId;
@@ -195,5 +195,141 @@ class User implements ModelInterface
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param mixed $userGroupId
+     */
+    public function setUserGroupId($userGroupId)
+    {
+        $this->userGroupId = $userGroupId;
+    }
+
+    /**
+     * @param mixed $userRole
+     */
+    public function setUserRole($userRole)
+    {
+        $this->userRole = $userRole;
+    }
+
+    /**
+     * @param mixed $userOrganizationId
+     */
+    public function setUserOrganizationId($userOrganizationId)
+    {
+        $this->userOrganizationId = $userOrganizationId;
+    }
+
+    /**
+     * @param mixed $salutation
+     */
+    public function setSalutation($salutation)
+    {
+        $this->salutation = $salutation;
+    }
+
+    /**
+     * @param mixed $userExpiry
+     */
+    public function setUserExpiry($userExpiry)
+    {
+        $this->userExpiry = $userExpiry;
+    }
+
+    /**
+     * @param mixed $fullName
+     */
+    public function setFullName($fullName)
+    {
+        $this->fullName = $fullName;
+    }
+
+    /**
+     * @param mixed $designation
+     */
+    public function setDesignation($designation)
+    {
+        $this->designation = $designation;
+    }
+
+    /**
+     * @param mixed $phone
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @param mixed $dateLine
+     */
+    public function setDateLine($dateLine)
+    {
+        $this->dateLine = $dateLine;
+    }
+
+    /**
+     * @param mixed $lastVisit
+     */
+    public function setLastVisit($lastVisit)
+    {
+        $this->lastVisit = $lastVisit;
+    }
+
+    /**
+     * @param mixed $isEnabled
+     */
+    public function setIsEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+    }
+
+    /**
+     * @param mixed $timeZone
+     */
+    public function setTimeZone($timeZone)
+    {
+        $this->timeZone = $timeZone;
+    }
+
+    /**
+     * @param mixed $enabledSt
+     */
+    public function setEnabledSt($enabledSt)
+    {
+        $this->enabledSt = $enabledSt;
+    }
+
+    /**
+     * @param mixed $slaPlanId
+     */
+    public function setSlaPlanId($slaPlanId)
+    {
+        $this->slaPlanId = $slaPlanId;
+    }
+
+    /**
+     * @param mixed $slaPlanExpiry
+     */
+    public function setSlaPlanExpiry($slaPlanExpiry)
+    {
+        $this->slaPlanExpiry = $slaPlanExpiry;
+    }
+
+    /**
+     * @param array $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 }

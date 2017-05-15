@@ -10,7 +10,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use indigerd\kayako\exceptions\ServerException;
 use indigerd\kayako\exceptions\ClientException;
-use indigerd\kayako\models\ModelInterface;
+use indigerd\kayako\models\Model;
 
 abstract class BaseService
 {
@@ -99,7 +99,7 @@ abstract class BaseService
         $xml = simplexml_load_string($response);
         $result = [];
         foreach ($xml->{$this->collectionTag} as $child) {
-            /** @var ModelInterface $class */
+            /** @var Model $class */
             $class = $this->modelClas;
             $result[] = $class::fromXml($child);
         }
