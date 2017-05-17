@@ -24,14 +24,22 @@ class ServiceFactory
 
     private $kayakoAddress;
 
+    private $apiKey;
+
+    private $secretKey;
+
     public function __construct(
         Client $client = null,
         LoggerInterface $logger = null,
-        $kayakoAddress = null
+        $kayakoAddress,
+        $apiKey,
+        $secretKey
     ) {
         $this->client = $client;
         $this->logger = $logger;
         $this->kayakoAddress = $kayakoAddress;
+        $this->apiKey = $apiKey;
+        $this->secretKey = $secretKey;
     }
 
     public function get($service, $params = [])
@@ -40,7 +48,7 @@ class ServiceFactory
             throw new \InvalidArgumentException(sprintf('The service "%s" is not available.', $service));
         }
         $class = static::$services[$service]['class'];
-        $args = [$this->client, $this->logger, $this->kayakoAddress];
+        $args = [$this->client, $this->logger, $this->kayakoAddress, $this->apiKey, $this->secretKey];
         foreach ($params as $param) {
             $args[] = $param;
         }

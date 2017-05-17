@@ -22,6 +22,10 @@ abstract class BaseService
 
     protected $kayakoAddress;
 
+    protected $apiKey;
+
+    protected $secretKey;
+
     protected $modelClas;
 
     protected $collectionTag;
@@ -29,7 +33,9 @@ abstract class BaseService
     public function __construct(
         Client $client = null,
         LoggerInterface $logger = null,
-        $kayakoAddress = null
+        $kayakoAddress,
+        $apiKey,
+        $secretKey
     ) {
         if (empty($this->modelClas)) {
             throw new \InvalidArgumentException('Model class not set');
@@ -40,34 +46,37 @@ abstract class BaseService
         $this->client = $client ?: new Client();
         $this->logger = $logger ?: new NullLogger();
         $this->kayakoAddress = $kayakoAddress;
+        $this->apiKey = $apiKey;
+        $this->secretKey = $secretKey;
     }
 
-    protected function get($url, $params = [])
+    protected function get($path, $params = [])
     {
-        return $this->request('get', $url, $params);
+        return $this->request('get', $path, $params);
     }
 
-    protected function post($url, $params = [])
+    protected function post($path, $params = [])
     {
-        return $this->request('post', $url, $params);
+        return $this->request('post', $path, $params);
     }
 
-    protected function put($url, $params = [])
+    protected function put($path, $params = [])
     {
-        return $this->request('put', $url, $params);
+        return $this->request('put', $path, $params);
     }
 
-    protected function delete($url, $params = [])
+    protected function delete($path, $params = [])
     {
-        return $this->request('delete', $url, $params);
+        return $this->request('delete', $path, $params);
     }
 
-    protected function request($method, $url, $params, $decode = false)
+    protected function request($method, $path, $params, $decode = false)
     {
-        $url = $this->kayakoAddress . $url;
+        $params['e'] = $path;
+        $params = array_merge($params, $this->getUrlSignParams());
         try {
             /** @var \GuzzleHttp\Message\ResponseInterface $request */
-            $request = $this->client->{$method}($url, $params);
+            $request = $this->client->{$method}($this->kayakoAddress, $params);
         } catch (\Exception $e) {
             $message = sprintf('Failed to to perform request to kayako (%s).', $e->getMessage());
             $this->logger->error($message);
@@ -104,5 +113,17 @@ abstract class BaseService
             $result[] = $class::fromXml($child);
         }
         return $result;
+    }
+
+    protected function getUrlSignParams()
+    {
+        $salt = mt_rand();
+        $signature = hash_hmac('sha256', $salt, $this->secretKey, true);
+        $encodedSignature = urlencode(base64_encode($signature));
+        return [
+            'apiKey'    => $this->apiKey,
+            'salt'      => $salt,
+            'signature' => $encodedSignature
+        ];
     }
 }
