@@ -1,0 +1,1 @@
+PHP SDK for https://www.kayako.com/ REST API
