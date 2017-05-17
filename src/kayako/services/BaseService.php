@@ -26,10 +26,6 @@ abstract class BaseService
 
     protected $secretKey;
 
-    protected $modelClas;
-
-    protected $collectionTag;
-
     public function __construct(
         Client $client = null,
         LoggerInterface $logger = null,
@@ -37,12 +33,6 @@ abstract class BaseService
         $apiKey,
         $secretKey
     ) {
-        if (empty($this->modelClas)) {
-            throw new \InvalidArgumentException('Model class not set');
-        }
-        if (empty($this->collectionTag)) {
-            throw new \InvalidArgumentException('Collection tag not set');
-        }
         $this->client = $client ?: new Client();
         $this->logger = $logger ?: new NullLogger();
         $this->kayakoAddress = $kayakoAddress;
@@ -102,15 +92,14 @@ abstract class BaseService
         return $data;
     }
 
-    protected function parseResponse($response)
+    protected function parseResponse($response, $collectionTag, $modelClas)
     {
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($response);
         $result = [];
-        foreach ($xml->{$this->collectionTag} as $child) {
-            /** @var Model $class */
-            $class = $this->modelClas;
-            $result[] = $class::fromXml($child);
+        foreach ($xml->{$collectionTag} as $child) {
+            /** @var Model $modelClas */
+            $result[] = $modelClas::fromXml($child);
         }
         return $result;
     }
