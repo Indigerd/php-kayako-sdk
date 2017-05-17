@@ -27,9 +27,22 @@ class Ticket extends BaseService
         return $this->parseResponse($data, 'tickets', TicketModel::class);
     }
 
-    public function attachFiles($id, array $files = [])
+    public function attachFiles($id, $postId, array $files = [])
     {
-
+        // path /Tickets/TicketAttachment
+        $path = '/Tickets/TicketAttachment';
+        $result = [];
+        foreach ($files as $file) {
+            $params = [
+                'ticketid' => $id,
+                'ticketpostid' => $postId,
+                'filename' => basename($file),
+                'contents' => base64_encode(file_get_contents($file))
+            ];
+            $data = $this->post($path, $params);
+            $result[] = $this->parseResponse($data, 'attachments', TicketAttachment::class);
+        }
+        return $result;
     }
 
     public function getAttachments($id)
