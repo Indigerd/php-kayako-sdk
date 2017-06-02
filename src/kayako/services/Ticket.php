@@ -32,12 +32,12 @@ class Ticket extends BaseService
         // path /Tickets/TicketAttachment
         $path = '/Tickets/TicketAttachment';
         $result = [];
-        foreach ($files as $file) {
+        foreach ($files as $fileName => $location) {
             $params = [
                 'ticketid' => $id,
                 'ticketpostid' => $postId,
-                'filename' => basename($file),
-                'contents' => base64_encode(file_get_contents($file))
+                'filename' => basename($fileName),
+                'contents' => base64_encode(file_get_contents($location))
             ];
             $data = $this->post($path, $params);
             $result[] = $this->parseResponse($data, 'attachments', TicketAttachment::class);

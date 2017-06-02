@@ -55,7 +55,7 @@ class User extends Model
         return $user;
     }
 
-    protected function addEmail($email)
+    public function addEmail($email)
     {
         $this->email[] = $email;
         return $this;

@@ -101,6 +101,9 @@ abstract class BaseService
             /** @var Model $modelClas */
             $result[] = $modelClas::fromXml($child);
         }
+        if (sizeof($result) == 1) {
+            $result = $result[0];
+        }
         return $result;
     }
 
