@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "indigerd\\consul\\": "src/kayako"
+      "indigerd\\kayako\\": "src/kayako"
     }
   }
 }
