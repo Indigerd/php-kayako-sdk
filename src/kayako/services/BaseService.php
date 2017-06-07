@@ -62,11 +62,16 @@ abstract class BaseService
 
     protected function request($method, $path, $params, $decode = false)
     {
-        $params['e'] = $path;
+        $requestParams['query'] = ['e' => $path];
         $params = array_merge($params, $this->getUrlSignParams());
+        if (in_array($method, ['post', 'put'])) {
+            $requestParams['body'] = $params;
+        } else {
+            $requestParams['query'] = array_merge($requestParams['query'], $params);
+        }
         try {
             /** @var \GuzzleHttp\Message\ResponseInterface $request */
-            $request = $this->client->{$method}($this->kayakoAddress, $params);
+            $request = $this->client->{$method}($this->kayakoAddress, $requestParams);
         } catch (\Exception $e) {
             $message = sprintf('Failed to to perform request to kayako (%s).', $e->getMessage());
             $this->logger->error($message);

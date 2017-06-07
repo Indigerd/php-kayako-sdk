@@ -32,16 +32,4 @@ class User extends BaseService
         $data = $this->get($path);
         return $this->parseResponse($data, 'users', UserModel::class);
     }
-
-    public function getUserByEmail($email)
-    {
-        // POST path /Tickets/TicketSearch query=John&fullname=1&email=1&contents=1
-        $path = '/Tickets/TicketSearch';
-        $params = [
-            'query' => $email,
-            'email' => 1
-        ];
-        $data = $this->post($path, $params);
-        return $this->parseResponse($data, 'users', UserModel::class);
-    }
 }
