@@ -73,6 +73,7 @@ abstract class BaseService
             /** @var \GuzzleHttp\Message\ResponseInterface $request */
             $request = $this->client->{$method}($this->kayakoAddress, $requestParams);
         } catch (\Exception $e) {
+
             $message = sprintf('Failed to to perform request to kayako (%s).', $e->getMessage());
             $this->logger->error($message);
             throw new ServerException($message);
@@ -88,8 +89,7 @@ abstract class BaseService
             }
             throw new ClientException($message);
         }
-
-        $data = $request->getBody();
+        $data = (string)$request->getBody();
         if ($decode) {
             libxml_use_internal_errors(true);
             $data = simplexml_load_string($request->getBody());
@@ -102,7 +102,7 @@ abstract class BaseService
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($response);
         $result = [];
-        foreach ($xml->{$collectionTag} as $child) {
+        foreach ($xml as $child) {
             /** @var Model $modelClas */
             $result[] = $modelClas::fromXml($child);
         }
@@ -116,9 +116,9 @@ abstract class BaseService
     {
         $salt = mt_rand();
         $signature = hash_hmac('sha256', $salt, $this->secretKey, true);
-        $encodedSignature = urlencode(base64_encode($signature));
+        $encodedSignature = base64_encode($signature);
         return [
-            'apiKey'    => $this->apiKey,
+            'apikey'    => $this->apiKey,
             'salt'      => $salt,
             'signature' => $encodedSignature
         ];

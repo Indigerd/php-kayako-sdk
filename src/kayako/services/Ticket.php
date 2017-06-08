@@ -96,6 +96,7 @@ class Ticket extends BaseService
         $p = array_merge($defaults, $a);
         $path = '/Tickets/Ticket/ListAll/' . implode('/', $p) . '/';
         $data = $this->get($path);
+        echo $data;exit;
         return $this->parseResponse($data, 'tickets', TicketModel::class);
     }
 }
