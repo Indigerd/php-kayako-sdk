@@ -47,7 +47,7 @@ class Ticket extends Model
         $ticket = new self();
         foreach ($xml->attributes() as $key => $val) {
             if ($key == 'id') {
-                $ticket->id = $val;
+                $ticket->id = (string)$val;
             }
         }
         $ticket->departmentId = (string)$xml->departmentid;
@@ -80,8 +80,11 @@ class Ticket extends Model
         $ticket->templateGroupId = (string)$xml->templategroupid;
         $ticket->templateGroupName = (string)$xml->templategroupname;
         $ticket->tags = (string)$xml->tags;
-        foreach ($xml->posts as $post) {
-            $ticket->addPost(Post::fromXml($post));
+        $xml->children();
+        if ($xml->posts->count() > 0) {
+            foreach ($xml->posts->post as $post) {
+                $ticket->addPost(Post::fromXml($post));
+            }
         }
         return $ticket;
     }
