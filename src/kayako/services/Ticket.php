@@ -7,6 +7,7 @@ namespace indigerd\kayako\services;
 
 use indigerd\kayako\models\Ticket as TicketModel;
 use indigerd\kayako\models\TicketAttachment;
+use indigerd\kayako\models\TicketStatus;
 use indigerd\kayako\models\Post;
 
 class Ticket extends BaseService
@@ -16,7 +17,8 @@ class Ticket extends BaseService
         // path /Tickets/Ticket
         $path = '/Tickets/Ticket';
         $data = $this->post($path, $params);
-        return $this->parseResponse($data, 'tickets', TicketModel::class);
+        //echo $data;exit;
+        return $this->parseResponse($data, TicketModel::class);
     }
 
     public function update($id, array $params = [])
@@ -24,7 +26,7 @@ class Ticket extends BaseService
         // path /Tickets/Ticket/$ticketid$/
         $path = '/Tickets/Ticket/' . (int)$id . '/';
         $data = $this->put($path, $params);
-        return $this->parseResponse($data, 'tickets', TicketModel::class);
+        return $this->parseResponse($data, TicketModel::class);
     }
 
     public function attachFiles($id, $postId, array $files = [])
@@ -39,8 +41,10 @@ class Ticket extends BaseService
                 'filename' => basename($fileName),
                 'contents' => base64_encode(file_get_contents($location))
             ];
+            //print_r($params);exit;
             $data = $this->post($path, $params);
-            $result[] = $this->parseResponse($data, 'attachments', TicketAttachment::class);
+            //echo $data;exit;
+            $result[] = $this->parseResponse($data, TicketAttachment::class);
         }
         return $result;
     }
@@ -50,7 +54,7 @@ class Ticket extends BaseService
         // path /Tickets/TicketAttachment/ListAll/$ticketid$
         $path = '/Tickets/TicketAttachment/ListAll/' . (int)$id;
         $data = $this->get($path);
-        return $this->parseResponse($data, 'attachments', TicketAttachment::class);
+        return $this->parseResponse($data, TicketAttachment::class, false);
     }
 
     public function getAttachment($id, $attachmentId)
@@ -58,7 +62,7 @@ class Ticket extends BaseService
         // path /Tickets/TicketAttachment/$ticketid$/$id$
         $path = '/Tickets/TicketAttachment/' . (int)$id . '/' . (int)$attachmentId;
         $data = $this->get($path);
-        return $this->parseResponse($data, 'attachments', TicketAttachment::class);
+        return $this->parseResponse($data, TicketAttachment::class);
     }
 
     public function addPost($id, array $params = [])
@@ -67,7 +71,7 @@ class Ticket extends BaseService
         $path = '/Tickets/TicketPost';
         $params['ticketid'] = $id;
         $data = $this->post($path, $params);
-        return $this->parseResponse($data, 'posts', Post::class);
+        return $this->parseResponse($data, Post::class);
     }
 
     public function getTicket($id)
@@ -75,7 +79,7 @@ class Ticket extends BaseService
         // path /Tickets/Ticket/$ticketid$/
         $path = '/Tickets/Ticket/' . (int)$id . '/';
         $data = $this->get($path);
-        return $this->parseResponse($data, 'tickets', TicketModel::class);
+        return $this->parseResponse($data, TicketModel::class);
     }
 
     public function getTickets(array $params = [])
@@ -96,6 +100,14 @@ class Ticket extends BaseService
         $p = array_merge($defaults, $a);
         $path = '/Tickets/Ticket/ListAll/' . implode('/', $p) . '/';
         $data = $this->get($path);
-        return $this->parseResponse($data, 'tickets', TicketModel::class);
+        return $this->parseResponse($data, TicketModel::class, false);
+    }
+
+    public function getTicketStatuses()
+    {
+        // path /Tickets/TicketStatus
+        $path = '/Tickets/TicketStatus';
+        $data = $this->get($path);
+        return $this->parseResponse($data, TicketStatus::class, false);
     }
 }

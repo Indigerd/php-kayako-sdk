@@ -71,6 +71,8 @@ abstract class BaseService
         }
         try {
             /** @var \GuzzleHttp\Message\ResponseInterface $request */
+            //echo $this->kayakoAddress;
+            //print_r($requestParams);exit;
             $request = $this->client->{$method}($this->kayakoAddress, $requestParams);
         } catch (\Exception $e) {
 
@@ -97,16 +99,17 @@ abstract class BaseService
         return $data;
     }
 
-    protected function parseResponse($response, $collectionTag, $modelClas)
+    protected function parseResponse($response, $modelClas, $singleResult = true)
     {
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($response);
         $result = [];
+        //print_r($xml);exit;
         foreach ($xml as $child) {
             /** @var Model $modelClas */
             $result[] = $modelClas::fromXml($child);
         }
-        if (sizeof($result) == 1) {
+        if (sizeof($result) == 1 and $singleResult) {
             $result = $result[0];
         }
         return $result;

@@ -30,9 +30,9 @@ class Post extends Model
         $post = new self();
         $post->id = (string)$xml->id;
         $post->ticketId = (string)$xml->ticketid;
-        $post->dateLine = (string)$xml->dateLine;
-        $post->userId = (string)$xml->userId;
-        $post->fullName = (string)$xml->fullName;
+        $post->dateLine = (string)$xml->dateline;
+        $post->userId = (string)$xml->userid;
+        $post->fullName = (string)$xml->fullname;
         $post->email = (string)$xml->email;
         $post->ipAddress = (string)$xml->ipaddress;
         $post->hasAttachments = (string)$xml->hasattachments;
@@ -42,7 +42,7 @@ class Post extends Model
         $post->isEmailed = (string)$xml->isemailed;
         $post->staffId = (string)$xml->staffid;
         $post->isSurveyComment = (string)$xml->issurveycomment;
-        $post->contents = (string)$xml->emailTo;
+        $post->contents = (string)$xml->contents;
         return $post;
     }
 

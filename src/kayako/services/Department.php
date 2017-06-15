@@ -14,6 +14,6 @@ class Department extends BaseService
         // path /Base/Department/
         $path = '/Base/Department/';
         $data = $this->post($path, $params);
-        return $this->parseResponse($data, 'departments', DepartmentModel::class);
+        return $this->parseResponse($data, DepartmentModel::class);
     }
 }
