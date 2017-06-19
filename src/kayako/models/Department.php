@@ -28,8 +28,10 @@ class Department extends Model
         $department->displayOrder = (string)$xml->displayorder;
         $department->parentDepartmentId = (string)$xml->parentdepartmentid;
         $department->userVisibilityCustom = (string)$xml->uservisibilitycustom;
-        foreach ($xml->usergroups as $group) {
-            $department->addUserGroup((string)$group);
+        if ($xml->usergroups->count() > 0) {
+            foreach ($xml->usergroups->id as $group) {
+                $department->addUserGroup((string)$group);
+            }
         }
         return $department;
     }

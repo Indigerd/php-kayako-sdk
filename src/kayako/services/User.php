@@ -6,6 +6,7 @@
 namespace indigerd\kayako\services;
 
 use indigerd\kayako\models\User as UserModel;
+use indigerd\kayako\models\UserGroup;
 
 class User extends BaseService
 {
@@ -31,5 +32,13 @@ class User extends BaseService
         $path = '/Base/User/' . (int)$id;
         $data = $this->get($path);
         return $this->parseResponse($data, UserModel::class);
+    }
+
+    public function createUserGroup(array $params = [])
+    {
+        // path /Base/UserGroup
+        $path = '/Base/UserGroup';
+        $data = $this->post($path, $params);
+        return $this->parseResponse($data, UserGroup::class);
     }
 }
