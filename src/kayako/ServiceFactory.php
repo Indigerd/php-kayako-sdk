@@ -11,9 +11,10 @@ use Psr\Log\LoggerInterface;
 class ServiceFactory
 {
     protected $services = [
-        'user'       => 'indigerd\kayako\services\User',
-        'ticket'     => 'indigerd\kayako\services\Ticket',
-        'department' => 'indigerd\kayako\services\Department',
+        'user'         => 'indigerd\kayako\services\User',
+        'ticket'       => 'indigerd\kayako\services\Ticket',
+        'department'   => 'indigerd\kayako\services\Department',
+        'custom-field' => 'indigerd\kayako\services\CustomField',
     ];
 
     /** @var Client  */

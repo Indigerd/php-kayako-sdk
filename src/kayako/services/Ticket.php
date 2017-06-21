@@ -5,6 +5,7 @@
 
 namespace indigerd\kayako\services;
 
+use indigerd\kayako\models\TicketCustomField;
 use indigerd\kayako\models\Ticket as TicketModel;
 use indigerd\kayako\models\TicketAttachment;
 use indigerd\kayako\models\TicketStatus;
@@ -109,5 +110,13 @@ class Ticket extends BaseService
         $path = '/Tickets/TicketStatus';
         $data = $this->get($path);
         return $this->parseResponse($data, TicketStatus::class, false);
+    }
+
+    public function addCustomFields($id, array $fields = [])
+    {
+        // path /Tickets/TicketCustomField/$ticketid$
+        $path = '/Tickets/TicketCustomField/' . (int)$id;
+        $data = $this->post($path, $fields);
+        return $this->parseResponse($data, TicketCustomField::class);
     }
 }

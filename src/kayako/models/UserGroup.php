@@ -23,4 +23,68 @@ class UserGroup extends Model
         $userGroup->isMaster = (string)$xml->ismaster;
         return $userGroup;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroupType()
+    {
+        return $this->groupType;
+    }
+
+    /**
+     * @param mixed $groupType
+     */
+    public function setGroupType($groupType)
+    {
+        $this->groupType = $groupType;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsMaster()
+    {
+        return $this->isMaster;
+    }
+
+    /**
+     * @param mixed $isMaster
+     */
+    public function setIsMaster($isMaster)
+    {
+        $this->isMaster = $isMaster;
+    }
 }
