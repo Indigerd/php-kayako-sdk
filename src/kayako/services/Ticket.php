@@ -119,4 +119,12 @@ class Ticket extends BaseService
         $data = $this->post($path, $fields);
         return $this->parseResponse($data, TicketCustomField::class);
     }
+
+    public function getTicketCustomFields($id)
+    {
+        // path /Tickets/TicketCustomField/$ticketid$
+        $path = '/Tickets/TicketCustomField/' . (int)$id;
+        $data = $this->get($path);
+        return $this->parseResponse($data, TicketCustomField::class);
+    }
 }
