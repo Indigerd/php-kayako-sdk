@@ -125,6 +125,19 @@ class Ticket extends BaseService
         // path /Tickets/TicketCustomField/$ticketid$
         $path = '/Tickets/TicketCustomField/' . (int)$id;
         $data = $this->get($path);
-        return $this->parseResponse($data, TicketCustomField::class);
+
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($data);
+        $result = [];
+        foreach ($xml as $child) {
+            if ($child->children()) {
+                foreach ($child as $subChild) {
+                    $result[] = TicketCustomField::fromXml($subChild);
+                }
+            } else {
+                $result[] = TicketCustomField::fromXml($child);
+            }
+        }
+        return $result;
     }
 }
