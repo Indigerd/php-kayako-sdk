@@ -117,7 +117,20 @@ class Ticket extends BaseService
         // path /Tickets/TicketCustomField/$ticketid$
         $path = '/Tickets/TicketCustomField/' . (int)$id;
         $data = $this->post($path, $fields);
-        return $this->parseResponse($data, TicketCustomField::class);
+        //echo $data;exit;
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($data);
+        $result = [];
+        foreach ($xml as $child) {
+            if ($child->children()) {
+                foreach ($child as $subChild) {
+                    $result[] = TicketCustomField::fromXml($subChild);
+                }
+            } else {
+                $result[] = TicketCustomField::fromXml($child);
+            }
+        }
+        return $result;
     }
 
     public function getTicketCustomFields($id)
@@ -125,7 +138,6 @@ class Ticket extends BaseService
         // path /Tickets/TicketCustomField/$ticketid$
         $path = '/Tickets/TicketCustomField/' . (int)$id;
         $data = $this->get($path);
-
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($data);
         $result = [];

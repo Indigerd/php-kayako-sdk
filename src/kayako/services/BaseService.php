@@ -71,6 +71,8 @@ abstract class BaseService
         }
         try {
             /** @var \GuzzleHttp\Message\ResponseInterface $request */
+            //echo $this->kayakoAddress;
+            //print_r($requestParams);exit;
             $request = $this->client->{$method}($this->kayakoAddress, $requestParams);
         } catch (\Exception $e) {
 
