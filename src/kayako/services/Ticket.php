@@ -152,4 +152,21 @@ class Ticket extends BaseService
         }
         return $result;
     }
+
+    public function getTotalByDepartment($departmentId)
+    {
+        $path = '/Tickets/TicketCount';
+        $data = $this->get($path);
+        $total = 0;
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($data);
+        foreach ($xml->departments->department as $department) {
+            foreach ($department->attributes() as $key => $val) {
+                if ($key == 'id' and (string)$val == (string)$departmentId) {
+                    $total = (string)$department->totalitems;
+                }
+            }
+        }
+        return $total;
+    }
 }
