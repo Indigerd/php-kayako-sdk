@@ -16,4 +16,12 @@ class Department extends BaseService
         $data = $this->post($path, $params);
         return $this->parseResponse($data, DepartmentModel::class);
     }
+
+    public function update($id, array $params = [])
+    {
+        // path /Base/Department/$id$
+        $path = '/Base/Department/' . (int)$id;
+        $data = $this->put($path, $params);
+        return $this->parseResponse($data, DepartmentModel::class);
+    }
 }
