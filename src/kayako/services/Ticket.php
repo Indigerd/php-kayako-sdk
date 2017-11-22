@@ -8,6 +8,7 @@ namespace indigerd\kayako\services;
 use indigerd\kayako\models\TicketCustomField;
 use indigerd\kayako\models\Ticket as TicketModel;
 use indigerd\kayako\models\TicketAttachment;
+use indigerd\kayako\models\TicketNote;
 use indigerd\kayako\models\TicketStatus;
 use indigerd\kayako\models\Post;
 
@@ -64,6 +65,31 @@ class Ticket extends BaseService
         $path = '/Tickets/TicketAttachment/' . (int)$id . '/' . (int)$attachmentId;
         $data = $this->get($path);
         return $this->parseResponse($data, TicketAttachment::class);
+    }
+
+    public function addNote($id, array $params = [])
+    {
+        // path /Tickets/TicketNote
+        $path = '/Tickets/TicketNote';
+        $params['ticketid'] = $id;
+        $data = $this->post($path, $params);
+        return $this->parseResponse($data, TicketNote::class);
+    }
+
+    public function getNotes($id)
+    {
+        // path /Tickets/TicketNote/ListAll/$ticketid$
+        $path = '/Tickets/TicketNote/ListAll/' . (int)$id;
+        $data = $this->get($path);
+        return $this->parseResponse($data, TicketNote::class, false);
+    }
+
+    public function getNote($id, $noteId)
+    {
+        // path /Tickets/TicketNote/$ticketid$/$id$
+        $path = '/Tickets/TicketNote/' . (int)$id . '/' . (int)$noteId;
+        $data = $this->get($path);
+        return $this->parseResponse($data, TicketNote::class);
     }
 
     public function addPost($id, array $params = [])
