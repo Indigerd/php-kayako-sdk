@@ -66,6 +66,7 @@ abstract class BaseService
         $params = array_merge($params, $this->getUrlSignParams());
         if (in_array($method, ['post', 'put'])) {
             $requestParams['body'] = $params;
+            $requestParams['form_params'] = $params;
         } else {
             $requestParams['query'] = array_merge($requestParams['query'], $params);
         }
