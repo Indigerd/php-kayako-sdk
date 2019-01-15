@@ -65,8 +65,8 @@ abstract class BaseService
         $requestParams['query'] = ['e' => $path];
         $params = array_merge($params, $this->getUrlSignParams());
         if (in_array($method, ['post', 'put'])) {
-            $requestParams['body'] = $params;
-            $requestParams['form_params'] = $params;
+            $requestParams['headers']['Content-Type'] = 'application/x-www-form-urlencoded';
+            $requestParams['body'] = http_build_query($params, '', '&');
         } else {
             $requestParams['query'] = array_merge($requestParams['query'], $params);
         }
