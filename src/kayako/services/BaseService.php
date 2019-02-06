@@ -104,6 +104,11 @@ abstract class BaseService
     {
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($response);
+        if ($xml === false) {
+            $message = sprintf('Kayako responded with an invalid body (%s).', $response);
+            $this->logger->error($message);
+            throw new ServerException($message);
+        }
         $result = [];
         foreach ($xml as $child) {
             /** @var Model $modelClas */
